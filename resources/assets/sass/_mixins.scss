@@ -1,0 +1,53 @@
+@mixin transform($transformation) {
+	-webkit-transform: $transformation;
+	-moz-transform: $transformation;
+	-ms-transform: $transformation;
+	-o-transform: $transformation;
+	transform: $transformation;
+}
+
+@mixin transition($transition) {
+	-webkit-transition: $transition;
+	-moz-transition: $transition;
+	-ms-transition: $transition;
+	-o-transition: $transition;
+	transition: $transition;
+}
+
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	-ms-border-radius: $radius;
+	-o-border-radius: $radius;
+	border-radius: $radius;
+}
+
+@mixin background-size($background-size) {
+    -webkit-background-size: $background-size;
+    -moz-background-size: $background-size;
+    -o-background-size: $background-size;
+    background-size: $background-size;
+}
+
+@mixin box-shadow($shadow) {
+	-webkit-box-shadow: $shadow;
+	-moz-box-shadow: $shadow;
+	-ms-box-shadow: $shadow;
+	-o-box-shadow: $shadow;
+	box-shadow: $shadow;
+}
+
+@mixin placeholder-color($color) {
+  &::-webkit-input-placeholder {
+      color: $color;
+  }
+  &:-moz-placeholder {
+      color: $color;
+  }
+  &::-moz-placeholder {
+      color: $color;
+  }
+  &:-ms-input-placeholder {
+      color: $color;
+  }
+}
