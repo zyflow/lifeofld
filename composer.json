@@ -10,9 +10,12 @@
         "barryvdh/laravel-translation-manager": "^0.5.2",
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
+        "google/apiclient": "^2.0",
         "laravel/framework": "5.6.*",
+        "laravel/passport": "^7.1",
         "laravel/scout": "^6.1",
         "laravel/tinker": "^1.0",
+        "spatie/laravel-google-calendar": "^2.2",
         "teamtnt/laravel-scout-tntsearch-driver": "^6.1"
     },
     "require-dev": {

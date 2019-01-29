@@ -6,6 +6,7 @@
 
 @section('content')
 
+    <p>Izsuacas</p>
 @stop
 
 @section('scripts')

@@ -17,6 +17,13 @@ Auth::routes();
 Route::get('/', 'Auth\LoginController@checkLogin');
 Route::get('/logout', 'Auth\LoginController@logout');
 
+//Route::get('/oauth2callback', 'SettingsController@index');
+//Route::resource('gcalendar', 'gCalendarController');
+//Route::get('oauth', ['as' => 'oauthCallback', 'uses' => 'gCalendarController@oauth']);
+Route::resource('cal', 'gCalendarController');
+Route::get('oauth', 'gCalendarController@oauth')->name('oauthCallback');
+
+
 // Main
 
 //Route::get('/notifications', 'StatisticsController@notifications');

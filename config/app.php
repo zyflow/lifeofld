@@ -149,6 +149,7 @@ return [
 		'Barryvdh\TranslationManager\ManagerServiceProvider',
 		TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
 		Laravel\Scout\ScoutServiceProvider::class,
+		Spatie\GoogleCalendar\GoogleCalendarServiceProvider::class,
         /*
          * Package Service Providers...
          */
