@@ -26,29 +26,27 @@ use Google_Service_Calendar;
 use Google_Service_Calendar_Event;
 use Google_Service_Calendar_EventDateTime;
 
-class DashboardController extends Controller
-{
-    public function __construct() {
-        $this->middleware('auth');
+class DashboardController extends Controller {
+	public function __construct()
+	{
+		$this->middleware('auth');
+		$this->citizen_fields = ['name', 'surname', 'cpr', 'address', 'email', 'mobile', 'group', 'kommune'];
 
-        $this->citizen_fields = ['name', 'surname', 'cpr', 'address', 'email', 'mobile', 'group', 'kommune'];
+		$this->fields_municipality = ['name', 'surname', 'cpr', 'address', 'email', 'mobile', 'bank_account', 'region', 'contact_person', 'group'];
 
-        $this->fields_municipality = ['name', 'surname', 'cpr', 'address', 'email', 'mobile', 'bank_account', 'region', 'contact_person', 'group'];
+		$this->fields_project = ['citizen_id', 'kommune_id', 'project_status', 'project_manager_id', 'project_activity', 'liggetid', 'meeting_days'];
+		$this->fields_project_dates = ['start', 'first_contact', 'meeting', 'commenced', 'material_sent_subject', 'material_sent_municipality', 'invoice', 'return'];
 
-        $this->fields_project = ['citizen_id', 'kommune_id', 'project_status', 'project_manager_id', 'project_activity', 'liggetid', 'meeting_days'];
-        $this->fields_project_dates = ['start', 'first_contact', 'meeting', 'commenced', 'material_sent_subject', 'material_sent_municipality', 'invoice', 'return'];
-
-        $this->fields_inventory = ["name", "cost_price", "sales_price", "rental_price", "stock_lock", "qty", "supplier_id"];
+		$this->fields_inventory = ["name", "cost_price", "sales_price", "rental_price", "stock_lock", "qty", "supplier_id"];
 
 		$client = new Google_Client();
-		$client->setAuthConfig('client_secret.json');
+		$client->setAuthConfig(storage_path('client_secret.json'));
 		$client->addScope(Google_Service_Calendar::CALENDAR);
-		$guzzleClient = new \GuzzleHttp\Client(array('curl' => array(CURLOPT_SSL_VERIFYPEER => false)));
+		$guzzleClient = new \GuzzleHttp\Client(['curl' => [CURLOPT_SSL_VERIFYPEER => false]]);
 		$client->setHttpClient($guzzleClient);
 		$this->client = $client;
 
-    }
-
+	}
 
 
 	/**
@@ -58,7 +56,7 @@ class DashboardController extends Controller
 	function getClient()
 	{
 		$client = new \Google_Client();
-		define('STDIN',fopen("php://stdin","r"));
+		define('STDIN', fopen("php://stdin", "r"));
 		$client->setRedirectUri('http://lifeofld.localhost.com');
 
 		$client->setApplicationName('Google Calendar API PHP Quickstart');
@@ -72,9 +70,9 @@ class DashboardController extends Controller
 		$client->setScopes('https://www.googleapis.com/auth/content');
 
 		$guzzleClient = new \GuzzleHttp\Client([
-				'curl' => [
-						CURLOPT_SSL_VERIFYPEER => false
-				]
+													   'curl' => [
+															   CURLOPT_SSL_VERIFYPEER => false,
+													   ],
 											   ]);
 		$client->setHttpClient($guzzleClient);
 
@@ -91,14 +89,17 @@ class DashboardController extends Controller
 //			$client->setAccessToken($accessToken);
 //		}
 
-
 		// If there is no previous token or it's expired.
-		if ($client->isAccessTokenExpired()) {
+		if ($client->isAccessTokenExpired())
+		{
 			// Refresh the token if possible, else fetch a new one.
 
-			if ($client->getRefreshToken()) {
+			if ($client->getRefreshToken())
+			{
 				$client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-			} else {
+			}
+			else
+			{
 				// Request authorization from the user.
 				$authUrl = $client->createAuthUrl();
 //				dd($authUrl);
@@ -113,12 +114,14 @@ class DashboardController extends Controller
 				$client->setAccessToken($accessToken);
 
 				// Check to see if there was an error.
-				if (array_key_exists('error', $accessToken)) {
+				if (array_key_exists('error', $accessToken))
+				{
 					throw new Exception(join(', ', $accessToken));
 				}
 			}
 			// Save the token to a file.
-			if (!file_exists(dirname($tokenPath))) {
+			if (!file_exists(dirname($tokenPath)))
+			{
 				mkdir(dirname($tokenPath), 0700, true);
 			}
 			file_put_contents($tokenPath, json_encode($client->getAccessToken()));
@@ -126,35 +129,44 @@ class DashboardController extends Controller
 		return $client;
 	}
 
+
 	public function index5()
 	{
 		session_start();
-		if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+		if (isset($_SESSION['access_token']) && $_SESSION['access_token'])
+		{
 			$this->client->setAccessToken($_SESSION['access_token']);
 			$service = new Google_Service_Calendar($this->client);
 			$calendarId = 'primary';
 			$results = $service->events->listEvents($calendarId);
 			return $results->getItems();
-		} else {
+		}
+		else
+		{
 			return redirect()->route('oauthCallback');
 		}
 	}
+
 
 	public function oauth()
 	{
 		session_start();
 		$rurl = action('gCalendarController@oauth');
 		$this->client->setRedirectUri($rurl);
-		if (!isset($_GET['code'])) {
+		if (!isset($_GET['code']))
+		{
 			$auth_url = $this->client->createAuthUrl();
 			$filtered_url = filter_var($auth_url, FILTER_SANITIZE_URL);
 			return redirect($filtered_url);
-		} else {
+		}
+		else
+		{
 			$this->client->authenticate($_GET['code']);
 			$_SESSION['access_token'] = $this->client->getAccessToken();
 			return redirect()->route('cal.index');
 		}
 	}
+
 
 	public function index()
 	{
@@ -172,102 +184,126 @@ class DashboardController extends Controller
 		header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
 	}
 
-    public function index2(Request $request) {
+
+	public function index2(Request $request)
+	{
 
 
-    	dd('asd');
+		dd('asd');
 
-    	$lang = $request->get('lang');
-    	if ($lang)
+		$lang = $request->get('lang');
+		if ($lang)
 		{
 			\App::setLocale($lang);
 			\Session::put('locale', $lang);
 		}
 
-        $user = Auth::user();
-        $managers = ProjectManagers::all();
+		$user = Auth::user();
+		$managers = ProjectManagers::all();
 //        $statuses = ProjectStatuses::all();
-        $municipalities = Communes::all();
-        $inventories = Inventory::all();
-        $suppliers = Suppliers::all();
+		$municipalities = Communes::all();
+		$inventories = Inventory::all();
+		$suppliers = Suppliers::all();
 
-        return view('dashboard/index', compact(
-            'user',
-            'managers',
-            'statuses',
-            'municipalities',
-            'inventories',
-            'suppliers')
-        );
-    }
+		return view('dashboard/index', compact(
+											 'user',
+											 'managers',
+											 'statuses',
+											 'municipalities',
+											 'inventories',
+											 'suppliers')
+		);
+	}
 
 
-    public function removeCitizen($id) {
-        Citizens::findOrFail($id)->delete();
-    }
+	public function removeCitizen($id)
+	{
+		Citizens::findOrFail($id)->delete();
+	}
 
-    public function updateMunicipality(MunicipalitiesRequest $request, $id) {
-        $municipality = Communes::findOrFail($id);
-        $input_municipality = [];
 
-        foreach ($this->fields_municipality as $value) {
-            $input_municipality[$value] = $request->$value;
-        }
+	public function updateMunicipality(MunicipalitiesRequest $request, $id)
+	{
+		$municipality = Communes::findOrFail($id);
+		$input_municipality = [];
 
-        $municipality->update($input_municipality);
-    }
+		foreach ($this->fields_municipality as $value)
+		{
+			$input_municipality[$value] = $request->$value;
+		}
 
-    public function removeMunicipality($id) {
-        $user = Auth::user();
-        $have_citizens = ["This municipality is assigned to citizens:"];
+		$municipality->update($input_municipality);
+	}
 
-        if ($user->admin === 1) {
-            $citizens = Citizens::all();
-        } else {
-            $citizens = Citizens::where('user_id', '=', $user->id)->get();
-        }
 
-        foreach ($citizens as $citizen) {
+	public function removeMunicipality($id)
+	{
+		$user = Auth::user();
+		$have_citizens = ["This municipality is assigned to citizens:"];
 
-            if ($citizen->kommune === $id) {
-                array_push($have_citizens, $citizen->name . " " . $citizen->surname);
-            }
-        }
+		if ($user->admin === 1)
+		{
+			$citizens = Citizens::all();
+		}
+		else
+		{
+			$citizens = Citizens::where('user_id', '=', $user->id)->get();
+		}
 
-        if (count($have_citizens) > 1) {
-            return response()->json(['errors' => $have_citizens], 404);
-        } else {
-            Communes::findOrFail($id)->delete();
-        }
-    }
+		foreach ($citizens as $citizen)
+		{
 
-    // Inventory
+			if ($citizen->kommune === $id)
+			{
+				array_push($have_citizens, $citizen->name . " " . $citizen->surname);
+			}
+		}
 
-    public function saveInventory(InventoryRequest $request) {
-        $input_inventory = [];
+		if (count($have_citizens) > 1)
+		{
+			return response()->json(['errors' => $have_citizens], 404);
+		}
+		else
+		{
+			Communes::findOrFail($id)->delete();
+		}
+	}
 
-        foreach ($this->fields_inventory as $value) {
-            $input_inventory[$value] = $request->$value;
-        }
 
-        $input_inventory['user_id'] = Auth::user()->id;
-        Inventory::create($input_inventory);
-    }
+	// Inventory
 
-    public function updateInventory(InventoryRequest $request, $id) {
-        $inventory = Inventory::findOrFail($id);
-        $input_inventory = [];
+	public function saveInventory(InventoryRequest $request)
+	{
+		$input_inventory = [];
 
-        foreach ($this->fields_inventory as $value) {
-            $input_inventory[$value] = $request->$value;
-        }
+		foreach ($this->fields_inventory as $value)
+		{
+			$input_inventory[$value] = $request->$value;
+		}
 
-        $inventory->update($input_inventory);
-    }
+		$input_inventory['user_id'] = Auth::user()->id;
+		Inventory::create($input_inventory);
+	}
 
-    public function removeInventory($id) {
-       Inventory::findOrFail($id)->delete();
-    }
 
-    // Projects
+	public function updateInventory(InventoryRequest $request, $id)
+	{
+		$inventory = Inventory::findOrFail($id);
+		$input_inventory = [];
+
+		foreach ($this->fields_inventory as $value)
+		{
+			$input_inventory[$value] = $request->$value;
+		}
+
+		$inventory->update($input_inventory);
+	}
+
+
+	public function removeInventory($id)
+	{
+		Inventory::findOrFail($id)->delete();
+	}
+
+	// Projects
 }

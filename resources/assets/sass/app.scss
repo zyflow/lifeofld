@@ -1,577 +1,574 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
-
 @import "variables";
 @import "mixins";
-
 // Components
-@import "components/login";
-@import "components/dashboard";
-@import "components/settings";
+//@import "components/login";
+//@import "components/dashboard";
+//@import "components/settings";
 @import "components/timeline";
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
-body {
-	font-family: "Open Sans", sans-serif;
-	background: #dcdcdc;
-	color: $main-color;
-	font-size: 13px;
-	font-weight: 300;
-}
-
-input,
-textarea,
-button {
-	cursor: pointer;
-
-	&:focus {
-		outline: none;
-	}
-}
-
-select {
-	display: none;
-}
-
-h1 {
-	font-size: 24px;
-	font-weight: 300px;
-	margin-bottom: 20px;
-}
-
-.main-container input {
-	&[type="date"] {
-		height: 37px;
-	}
-
-	width: 100%;
-	border-radius: 5px;
-	border: 1px solid $main-color;
-	color: $main-color;
-	padding: 8px 13px;
-	font-size: 12px;
-	@include placeholder-color($label-color);
-}
-
-input,
-textarea {
-	@include border-radius(0);
-	color: $main-color;
-}
-
-button {
-	@include transition(all .2s ease-in-out);
-	background: $white;
-	padding: 10px 10px;
-	text-transform: uppercase;
-	@include border-radius(5px);
-	border: 1px solid $button-inactive;
-	color: $main-color;
-	font-weight: 300;
-    font-size: 13px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-
-	&.small {
-		background: $main-color;
-		color: $white;
-		font-size: 11px;
-		padding: 4px 30px 4px 15px;
-		@include border-radius(20px);
-		position: relative;
-		border: 1px solid $main-color;
-
-		&:hover {
-			border: 1px solid $button-inactive;
-			background: $white;
-			color: $main-color;
-		}
-
-		&.active {
-			&::after {
-				content: "-";
-				top: -8px;
-				font-size: 24px;
-			}
-		}
-
-		&::after {
-			content: "+";
-			position: absolute;
-			right: 13px;
-			top: -2px;
-			font-size: 19px;
-		} 
-	}
-
-	&:hover {
-		background: $main-color;
-		color: $white;
-		border: 1px solid $main-color;
-	}
-
-	&.active {
-		border: 1px solid $main-color;
-		background: $main-color;
-		color: $white;
-
-		&:hover {
-			background: $main-color;
-			color: $white;
-			border: 1px solid $main-color;
-		}
-	}
-}
-
-a {
-	color: $main-color;
-
-	&:hover {
-		text-decoration: none;
-	}
-}
-
-.hidden {
-	display: none;
-}
-
-.right-content {
-	display: inline-block;
-	vertical-align: top;
-	width: calc(100% - 250px);
-
-	.mobile-title {
-		display: none;
-	}
-
-	&.mobile {
-		width: calc(100% - 50px);
-
-		.mobile-title {
-			display: block;
-			font-size: 18px;
-			font-weight: 700;
-			margin-bottom: 10px;
-		}
-
-		.top {
-			padding: 9px 26px;
-		}
-	}
-
-	.main-container {
-		padding: 25px;
-	}
-
-	.top {
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-		width: 100%;
-		background: $white;
-		padding: 15px 26px;
-
-		.top-right,
-		.search {
-			display: inline-block;
-			width: 50%;
-			vertical-align: middle;
-		}
-
-		.search {
-			position: relative;
-			padding-top: 4px;
-
-			&::before {
-				content: "";
-				background: url(/img/search.svg);
-				width: 15px;
-				height: 15px;
-				position: absolute;
-				top: 11px;
-				left: 0;
-				@include background-size(cover);
-			}
-
-			input {
-				border-width: 0 0 1px 0;
-				border-color: transparent;
-				padding: 5px;
-				max-width: 320px;
-    			width: 100%;
-				margin-left: 20px;
-				font-size: 13px;
-
-				&:focus {
-					border-bottom: 1px solid $main-color;
-				}
-			}
-		}
-
-		.top-right {
-			text-align: right;
-			position: relative;
-
-			.notifications-dropdown {
-				position: absolute;
-				right: 141px;
-				top: 40px;
-				background: $button-inactive;
-				font-size: 11px;
-				text-align: left;
-
-				&::before {
-					width: 0; 
-					height: 0; 
-					border-left: 7px solid transparent;
-					border-right: 7px solid transparent;
-					border-bottom: 7px solid $button-inactive;
-					content: "";
-					position: absolute;
-					top: -7px;
-    				right: 20px;
-				}
-
-				.unread {
-					text-align: center;
-					padding: 10px 10px 0;
-					color: $green;
-					font-weight: bold;
-				}
-
-				.notification {
-					border-bottom: 1px solid $label-color;
-    				padding: 10px 15px 10px 25px;
-					@include transition(all .2s ease-in-out);
-					position: relative;
-					cursor: pointer;
-
-					&::before {
-						width: 8px;
-						height: 8px;
-						content: "";
-						position: absolute;
-						left: 10px;
-						top: 15px;
-						background: $label-color;
-						border-radius: 100%;
-					}
-
-					&.visible {
-						&::before {
-							background: $green;
-						}
-					}
-
-					&:last-of-type {
-						border-bottom: none;
-					}
-
-					&:hover {
-						background: $inactive-color;
-					}
-				}
-
-				.archive {
-					text-align: center;
-					padding: 10px;
-					text-transform: uppercase;
-					font-size: 11px;
-					font-weight: 700;
-					cursor: pointer;
-
-					&:hover {
-						text-decoration: underline;
-					}
-				}
-			}
-
-			.notifications,
-			.user,
-			.logout {
-				display: inline-block;
-			}
-
-			.notifications {
-				position: relative;
-    			top: 3px;
-				@include transition(all .2s ease-in-out);
-				cursor: pointer;
-
-				&:hover {
-					@include transform(scale(1.2));
-				}
-
-				&.active {
-					&::before {
-						content: "";
-						position: absolute;
-						top: -1px;
-						right: -1px;
-						background: $pink;
-						border: 2px solid $white;
-						width: 11px;
-						height: 11px;
-						@include border-radius(100%);
-					}
-				}
-
-				img {
-					width: 20px;
-				}
-			}
-
-			.logout {
-				position: relative;
-    			top: 1px;
-				margin-left: 25px;
-
-				img {
-					width: 20px;
-					@include transition(all .2s ease-in-out);
-
-					&:hover {
-						@include transform(scale(1.3));
-					}
-				}
-			}
-
-			.user {
-				font-size: 11px;
-				border-left: 2px solid $body-bg;
-				margin-left: 15px;
-				padding-left: 15px;
-
-				.name,
-				.avatar {
-					display: inline-block;
-					vertical-align: middle;
-				}
-
-				.name {
-					margin-right: 10px;
-				}
-
-				.avatar {
-					width: 35px;
-					height: 35px;
-					@include border-radius(100%);
-					@include background-size(cover);
-					background-position: center center;
-				}
-			}
-		}
-	}
-}
-
-div {
-	&[class*="styles_overlay"] {
-    	background: rgba(50, 50, 69, .7);
-
-		div {
-			&[class*="styles_modal"] { 
-				box-shadow: 0 10px 25px rgba(50, 50, 69, .5);
-				max-width: 650px;
-				width: 100%;
-				padding: 0;
-
-				.remove-container {
-					text-align: center;
-					font-size: 24px;
-					padding: 30px;
-
-					.no {
-						margin-left: 10px;
-					}
-				}
-
-				.success-msg {
-					color: $green;
-					padding: 10px;
-					display: none;
-					text-align: center;
-					font-size: 14px;
-    				font-weight: 700;
-					position: absolute;
-					right: 13px;
-					top: -1px;
-					font-size: 12px;
-					text-transform: uppercase;
-
-					span {
-						&:first-of-type {
-							position: relative;
-							top: 1px;
-							right: 4px;
-						}
-
-						img {
-							width: 25px;
-						}
-					}
-				}
-
-				.error-msg {
-					color: $pink;
-					padding: 10px;
-					display: none;
-					text-align: center;
-					font-size: 14px;
-    				font-weight: 700;
-					position: absolute;
-					z-index: 1;
-					right: 15px;
-					top: 3px;
-
-					&.kommune {
-						top: 87px;
-						right: 200px;
-					}
-
-					.errors {
-						position: relative;
-
-						&:hover {
-							span {
-								display: block;
-							}
-						}
-
-						span {
-							display: none;
-							position: absolute;
-							z-index: 1;
-							background: $white;
-							font-size: 11px;
-							font-weight: 300;
-							text-align: left;
-							padding: 10px;
-							border: 1px solid $pink;
-							right: 0;
-							top: 25px;
-							width: 200px;
-						}
-					}
-
-					img {
-						width: 22px;
-						display: block;
-						margin: auto;
-					}
-				}
-
-				.close-icon {
-					background: url(/img/close.svg);
-					width: 25px;
-					height: 25px;
-					@include background-size(cover);
-					position: absolute;
-					top: -22px;
-					right: -22px;
-					cursor: pointer;
-				}
-
-				.buttons {
-					width: 100%;
-					text-align: center;
-    				margin-top: 35px;
-
-					button {
-						background: $main-color;
-						color: $white;
-						border: 1px solid $main-color;
-						min-width: 150px;
-    					text-transform: capitalize;
-
-						&.back {
-							margin-right: 10px;
-						}
-
-						&:hover {
-							border: 1px solid $button-inactive;
-							color: $main-color;
-							background: transparent;
-						}
-
-						&.remove {
-							background: $pink;
-							border: 1px solid $pink;
-							color: $white;
-							margin-left: 10px;
-
-							&:hover {
-								color: $pink;
-								background: transparent;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-.other-select {
-	width: 100%;
-	position: relative;
-	margin-bottom: 5px;
-
-	span {
-		display: inline-block;
-		width: 100%;
-		padding: 8px 30px 8px 13px;
-		font-size: 12px;
-		background: $white;
-		position: relative;
-		cursor: pointer;
-		border: 1px solid $main-color;
-		@include border-radius(5px);
-		min-height: 37px;
-
-		&::before {
-			border-left: 5px solid transparent;
-			border-right: 5px solid transparent;
-			border-top: 5px solid $main-color;
-			@include transition(all 0.2s ease);
-			content: "";
-			position: absolute;
-			right: 10px;
-			top: 15px;
-		}
-
-		&.active {
-			&::before {
-				@include transform(rotate(180deg));
-			}
-		}
-	}
-
-	ul {
-		width: 100%;
-		padding: 0;
-		font-size: 12px;
-		background: $white;
-		list-style-type: none;
-		display: none;
-		position: absolute;
-		left: 0;
-		top: 40px;
-		z-index: 1;
-		border: 1px solid $label-color;
-
-		li {
-			padding: 6px 12px;
-			text-align: left;
-			border-bottom: 1px solid $label-color;
-			@include transition(all 0.2s ease);
-			cursor: pointer;
-			background: $white;
-
-			&:last-child {
-				border-bottom: none;
-			}
-
-			&:hover {
-				background: $label-color;
-			}
-		}
-	}
-}
+//
+//body {
+//	font-family: "Open Sans", sans-serif;
+//	background: #dcdcdc;
+//	color: $main-color;
+//	font-size: 13px;
+//	font-weight: 300;
+//}
+//
+//input,
+//textarea,
+//button {
+//	cursor: pointer;
+//
+//	&:focus {
+//		outline: none;
+//	}
+//}
+//
+//select {
+//	display: none;
+//}
+//
+//h1 {
+//	font-size: 24px;
+//	font-weight: 300px;
+//	margin-bottom: 20px;
+//}
+//
+//.main-container input {
+//	&[type="date"] {
+//		height: 37px;
+//	}
+//
+//	width: 100%;
+//	border-radius: 5px;
+//	border: 1px solid $main-color;
+//	color: $main-color;
+//	padding: 8px 13px;
+//	font-size: 12px;
+//	@include placeholder-color($label-color);
+//}
+//
+//input,
+//textarea {
+//	@include border-radius(0);
+//	color: $main-color;
+//}
+//
+//button {
+//	@include transition(all .2s ease-in-out);
+//	background: $white;
+//	padding: 10px 10px;
+//	text-transform: uppercase;
+//	@include border-radius(5px);
+//	border: 1px solid $button-inactive;
+//	color: $main-color;
+//	font-weight: 300;
+//	font-size: 13px;
+//	box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+//
+//	&.small {
+//		background: $main-color;
+//		color: $white;
+//		font-size: 11px;
+//		padding: 4px 30px 4px 15px;
+//		@include border-radius(20px);
+//		position: relative;
+//		border: 1px solid $main-color;
+//
+//		&:hover {
+//			border: 1px solid $button-inactive;
+//			background: $white;
+//			color: $main-color;
+//		}
+//
+//		&.active {
+//			&::after {
+//				content: "-";
+//				top: -8px;
+//				font-size: 24px;
+//			}
+//		}
+//
+//		&::after {
+//			content: "+";
+//			position: absolute;
+//			right: 13px;
+//			top: -2px;
+//			font-size: 19px;
+//		}
+//	}
+//
+//	&:hover {
+//		background: $main-color;
+//		color: $white;
+//		border: 1px solid $main-color;
+//	}
+//
+//	&.active {
+//		border: 1px solid $main-color;
+//		background: $main-color;
+//		color: $white;
+//
+//		&:hover {
+//			background: $main-color;
+//			color: $white;
+//			border: 1px solid $main-color;
+//		}
+//	}
+//}
+//
+//a {
+//	color: $main-color;
+//
+//	&:hover {
+//		text-decoration: none;
+//	}
+//}
+//
+//.hidden {
+//	display: none;
+//}
+//
+//.right-content {
+//	display: inline-block;
+//	vertical-align: top;
+//	width: calc(100% - 250px);
+//
+//	.mobile-title {
+//		display: none;
+//	}
+//
+//	&.mobile {
+//		width: calc(100% - 50px);
+//
+//		.mobile-title {
+//			display: block;
+//			font-size: 18px;
+//			font-weight: 700;
+//			margin-bottom: 10px;
+//		}
+//
+//		.top {
+//			padding: 9px 26px;
+//		}
+//	}
+//
+//	.main-container {
+//		padding: 25px;
+//	}
+//
+//	.top {
+//		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+//		width: 100%;
+//		background: $white;
+//		padding: 15px 26px;
+//
+//		.top-right,
+//		.search {
+//			display: inline-block;
+//			width: 50%;
+//			vertical-align: middle;
+//		}
+//
+//		.search {
+//			position: relative;
+//			padding-top: 4px;
+//
+//			&::before {
+//				content: "";
+//				background: url(/img/search.svg);
+//				width: 15px;
+//				height: 15px;
+//				position: absolute;
+//				top: 11px;
+//				left: 0;
+//				@include background-size(cover);
+//			}
+//
+//			input {
+//				border-width: 0 0 1px 0;
+//				border-color: transparent;
+//				padding: 5px;
+//				max-width: 320px;
+//				width: 100%;
+//				margin-left: 20px;
+//				font-size: 13px;
+//
+//				&:focus {
+//					border-bottom: 1px solid $main-color;
+//				}
+//			}
+//		}
+//
+//		.top-right {
+//			text-align: right;
+//			position: relative;
+//
+//			.notifications-dropdown {
+//				position: absolute;
+//				right: 141px;
+//				top: 40px;
+//				background: $button-inactive;
+//				font-size: 11px;
+//				text-align: left;
+//
+//				&::before {
+//					width: 0;
+//					height: 0;
+//					border-left: 7px solid transparent;
+//					border-right: 7px solid transparent;
+//					border-bottom: 7px solid $button-inactive;
+//					content: "";
+//					position: absolute;
+//					top: -7px;
+//					right: 20px;
+//				}
+//
+//				.unread {
+//					text-align: center;
+//					padding: 10px 10px 0;
+//					color: $green;
+//					font-weight: bold;
+//				}
+//
+//				.notification {
+//					border-bottom: 1px solid $label-color;
+//					padding: 10px 15px 10px 25px;
+//					@include transition(all .2s ease-in-out);
+//					position: relative;
+//					cursor: pointer;
+//
+//					&::before {
+//						width: 8px;
+//						height: 8px;
+//						content: "";
+//						position: absolute;
+//						left: 10px;
+//						top: 15px;
+//						background: $label-color;
+//						border-radius: 100%;
+//					}
+//
+//					&.visible {
+//						&::before {
+//							background: $green;
+//						}
+//					}
+//
+//					&:last-of-type {
+//						border-bottom: none;
+//					}
+//
+//					&:hover {
+//						background: $inactive-color;
+//					}
+//				}
+//
+//				.archive {
+//					text-align: center;
+//					padding: 10px;
+//					text-transform: uppercase;
+//					font-size: 11px;
+//					font-weight: 700;
+//					cursor: pointer;
+//
+//					&:hover {
+//						text-decoration: underline;
+//					}
+//				}
+//			}
+//
+//			.notifications,
+//			.user,
+//			.logout {
+//				display: inline-block;
+//			}
+//
+//			.notifications {
+//				position: relative;
+//				top: 3px;
+//				@include transition(all .2s ease-in-out);
+//				cursor: pointer;
+//
+//				&:hover {
+//					@include transform(scale(1.2));
+//				}
+//
+//				&.active {
+//					&::before {
+//						content: "";
+//						position: absolute;
+//						top: -1px;
+//						right: -1px;
+//						background: $pink;
+//						border: 2px solid $white;
+//						width: 11px;
+//						height: 11px;
+//						@include border-radius(100%);
+//					}
+//				}
+//
+//				img {
+//					width: 20px;
+//				}
+//			}
+//
+//			.logout {
+//				position: relative;
+//				top: 1px;
+//				margin-left: 25px;
+//
+//				img {
+//					width: 20px;
+//					@include transition(all .2s ease-in-out);
+//
+//					&:hover {
+//						@include transform(scale(1.3));
+//					}
+//				}
+//			}
+//
+//			.user {
+//				font-size: 11px;
+//				border-left: 2px solid $body-bg;
+//				margin-left: 15px;
+//				padding-left: 15px;
+//
+//				.name,
+//				.avatar {
+//					display: inline-block;
+//					vertical-align: middle;
+//				}
+//
+//				.name {
+//					margin-right: 10px;
+//				}
+//
+//				.avatar {
+//					width: 35px;
+//					height: 35px;
+//					@include border-radius(100%);
+//					@include background-size(cover);
+//					background-position: center center;
+//				}
+//			}
+//		}
+//	}
+//}
+//
+//div {
+//	&[class*="styles_overlay"] {
+//		background: rgba(50, 50, 69, .7);
+//
+//		div {
+//			&[class*="styles_modal"] {
+//				box-shadow: 0 10px 25px rgba(50, 50, 69, .5);
+//				max-width: 650px;
+//				width: 100%;
+//				padding: 0;
+//
+//				.remove-container {
+//					text-align: center;
+//					font-size: 24px;
+//					padding: 30px;
+//
+//					.no {
+//						margin-left: 10px;
+//					}
+//				}
+//
+//				.success-msg {
+//					color: $green;
+//					padding: 10px;
+//					display: none;
+//					text-align: center;
+//					font-size: 14px;
+//					font-weight: 700;
+//					position: absolute;
+//					right: 13px;
+//					top: -1px;
+//					font-size: 12px;
+//					text-transform: uppercase;
+//
+//					span {
+//						&:first-of-type {
+//							position: relative;
+//							top: 1px;
+//							right: 4px;
+//						}
+//
+//						img {
+//							width: 25px;
+//						}
+//					}
+//				}
+//
+//				.error-msg {
+//					color: $pink;
+//					padding: 10px;
+//					display: none;
+//					text-align: center;
+//					font-size: 14px;
+//					font-weight: 700;
+//					position: absolute;
+//					z-index: 1;
+//					right: 15px;
+//					top: 3px;
+//
+//					&.kommune {
+//						top: 87px;
+//						right: 200px;
+//					}
+//
+//					.errors {
+//						position: relative;
+//
+//						&:hover {
+//							span {
+//								display: block;
+//							}
+//						}
+//
+//						span {
+//							display: none;
+//							position: absolute;
+//							z-index: 1;
+//							background: $white;
+//							font-size: 11px;
+//							font-weight: 300;
+//							text-align: left;
+//							padding: 10px;
+//							border: 1px solid $pink;
+//							right: 0;
+//							top: 25px;
+//							width: 200px;
+//						}
+//					}
+//
+//					img {
+//						width: 22px;
+//						display: block;
+//						margin: auto;
+//					}
+//				}
+//
+//				.close-icon {
+//					background: url(/img/close.svg);
+//					width: 25px;
+//					height: 25px;
+//					@include background-size(cover);
+//					position: absolute;
+//					top: -22px;
+//					right: -22px;
+//					cursor: pointer;
+//				}
+//
+//				.buttons {
+//					width: 100%;
+//					text-align: center;
+//					margin-top: 35px;
+//
+//					button {
+//						background: $main-color;
+//						color: $white;
+//						border: 1px solid $main-color;
+//						min-width: 150px;
+//						text-transform: capitalize;
+//
+//						&.back {
+//							margin-right: 10px;
+//						}
+//
+//						&:hover {
+//							border: 1px solid $button-inactive;
+//							color: $main-color;
+//							background: transparent;
+//						}
+//
+//						&.remove {
+//							background: $pink;
+//							border: 1px solid $pink;
+//							color: $white;
+//							margin-left: 10px;
+//
+//							&:hover {
+//								color: $pink;
+//								background: transparent;
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+//}
+//
+//.other-select {
+//	width: 100%;
+//	position: relative;
+//	margin-bottom: 5px;
+//
+//	span {
+//		display: inline-block;
+//		width: 100%;
+//		padding: 8px 30px 8px 13px;
+//		font-size: 12px;
+//		background: $white;
+//		position: relative;
+//		cursor: pointer;
+//		border: 1px solid $main-color;
+//		@include border-radius(5px);
+//		min-height: 37px;
+//
+//		&::before {
+//			border-left: 5px solid transparent;
+//			border-right: 5px solid transparent;
+//			border-top: 5px solid $main-color;
+//			@include transition(all 0.2s ease);
+//			content: "";
+//			position: absolute;
+//			right: 10px;
+//			top: 15px;
+//		}
+//
+//		&.active {
+//			&::before {
+//				@include transform(rotate(180deg));
+//			}
+//		}
+//	}
+//
+//	ul {
+//		width: 100%;
+//		padding: 0;
+//		font-size: 12px;
+//		background: $white;
+//		list-style-type: none;
+//		display: none;
+//		position: absolute;
+//		left: 0;
+//		top: 40px;
+//		z-index: 1;
+//		border: 1px solid $label-color;
+//
+//		li {
+//			padding: 6px 12px;
+//			text-align: left;
+//			border-bottom: 1px solid $label-color;
+//			@include transition(all 0.2s ease);
+//			cursor: pointer;
+//			background: $white;
+//
+//			&:last-child {
+//				border-bottom: none;
+//			}
+//
+//			&:hover {
+//				background: $label-color;
+//			}
+//		}
+//	}
+//}

@@ -12,8 +12,8 @@
 
     @if (Auth::user())
         <script type="text/javascript">
-            var managers = @json($managers),
-                suppliers = @json($suppliers);
+			var managers = @json($managers),
+				suppliers = @json($suppliers);
         </script>
     @endif
 @endsection
